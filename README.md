@@ -22,10 +22,11 @@ You can also click the **🪄 menu-bar icon** to toggle tools, and open **Settin
 
 ## Install
 
-### Option A — you were given the packaged app
-1. Unzip `ScreenTools.zip` (or open `ScreenTools.dmg` and drag the app to **Applications**).
-2. The first time, **right-click the app → Open** (not double-click) and confirm. This is required once because the app isn't signed by an identified Apple developer.
-3. The 🪄 icon appears in your menu bar. There is no Dock icon.
+### Option A — download the packaged app
+1. Grab `ScreenTools.dmg` (or `.zip`) from the [latest release](https://github.com/StrawberryBe/ScreenTools/releases/latest).
+2. Open the `.dmg` and drag the app to **Applications** (or unzip the `.zip` into Applications).
+3. The first time, **right-click the app → Open** (not double-click) and confirm. This is required once because the app isn't signed by an identified Apple developer.
+4. The 🪄 icon appears in your menu bar. There is no Dock icon.
 
 ### Option B — build it yourself from source
 Requires **Xcode** (Mac App Store) and **XcodeGen** (`brew install xcodegen`).
@@ -35,6 +36,12 @@ xcodegen generate
 xcodebuild -project ScreenTools.xcodeproj -scheme ScreenTools -configuration Release build
 ```
 The built app is under Xcode's DerivedData; copy it to `/Applications`.
+
+### Maintainers — cutting a new release
+`scripts/package.sh` builds a Release configuration, stages it with an
+`Applications` symlink, and produces `dist/ScreenTools.dmg` / `dist/ScreenTools.zip`.
+Upload those to a new [GitHub release](https://github.com/StrawberryBe/ScreenTools/releases)
+so Option A above keeps working.
 
 ---
 
