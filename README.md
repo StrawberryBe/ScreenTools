@@ -28,16 +28,10 @@ You can also click the **🪄 menu-bar icon** to toggle tools, and open **Settin
 3. The first time, **right-click the app → Open** (not double-click) and confirm. This is required once because the app isn't signed by an identified Apple developer.
 4. The 🪄 icon appears in your menu bar. There is no Dock icon.
 
-### Option B — build it yourself from source
-Requires **Xcode** (Mac App Store) and **XcodeGen** (`brew install xcodegen`).
-```bash
-cd ScreenTools
-xcodegen generate
-xcodebuild -project ScreenTools.xcodeproj -scheme ScreenTools -configuration Release build
-```
-The built app is under Xcode's DerivedData; copy it to `/Applications`.
-
 ### Maintainers — cutting a new release
+Building from source requires a local code-signing identity (see
+`project.yml`'s `CODE_SIGN_IDENTITY`/`OTHER_CODE_SIGN_FLAGS`), so this isn't
+currently set up for outside contributors — use Option A above instead.
 `scripts/package.sh` builds a Release configuration, stages it with an
 `Applications` symlink, and produces `dist/ScreenTools.dmg` / `dist/ScreenTools.zip`.
 Upload those to a new [GitHub release](https://github.com/StrawberryBe/ScreenTools/releases)
