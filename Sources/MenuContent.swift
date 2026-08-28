@@ -21,8 +21,7 @@ struct MenuContent: View {
 
             Divider()
 
-            toolRow(.paint, "Paint", "4")
-            toolRow(.countdown, "Countdown", "5")
+            toolRow(.countdown, "Countdown", "4")
 
             Divider()
 

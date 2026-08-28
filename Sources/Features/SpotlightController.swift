@@ -9,6 +9,8 @@ final class SpotlightController {
     private var active = false
     private var radius: CGFloat = 140
     private var lastPoint: CGPoint = .zero
+    private var lastRadius: CGFloat?
+    private var lastBounds: CGRect?
 
     init(host: OverlayController) {
         self.host = host
@@ -41,8 +43,12 @@ final class SpotlightController {
 
     func update(localPoint: CGPoint) {
         guard active else { return }
-        lastPoint = localPoint
         let dim = host.spotlightLayer
+        guard localPoint != lastPoint || radius != lastRadius || dim.bounds != lastBounds else { return }
+        lastPoint = localPoint
+        lastRadius = radius
+        lastBounds = dim.bounds
+
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         mask.frame = dim.bounds

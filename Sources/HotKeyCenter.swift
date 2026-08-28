@@ -12,13 +12,12 @@ final class HotKeyCenter {
 
     init(app: AppState) {
         self.app = app
-        register(.one,   [.command, .option]) { app.toggle(.halo) }
-        register(.two,   [.command, .option]) { app.toggle(.magnifier) }
-        register(.three, [.command, .option]) { app.toggle(.spotlight) }
-        register(.four,  [.command, .option]) { app.toggle(.paint) }
-        register(.five,  [.command, .option]) { app.toggle(.countdown) }
-        register(.equal, [.command, .option]) { app.adjustMagnifierZoom(by: 0.5) }
-        register(.minus, [.command, .option]) { app.adjustMagnifierZoom(by: -0.5) }
+        register(.one,   [.command, .option]) { [weak app] in app?.toggle(.halo) }
+        register(.two,   [.command, .option]) { [weak app] in app?.toggle(.magnifier) }
+        register(.three, [.command, .option]) { [weak app] in app?.toggle(.spotlight) }
+        register(.four,  [.command, .option]) { [weak app] in app?.toggle(.countdown) }
+        register(.equal, [.command, .option]) { [weak app] in app?.adjustMagnifierZoom(by: 0.5) }
+        register(.minus, [.command, .option]) { [weak app] in app?.adjustMagnifierZoom(by: -0.5) }
     }
 
     private func register(_ key: Key, _ modifiers: NSEvent.ModifierFlags, action: @escaping () -> Void) {

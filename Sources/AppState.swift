@@ -3,7 +3,7 @@ import AppKit
 
 /// Identifies each toggleable tool.
 enum Tool: CaseIterable {
-    case halo, magnifier, spotlight, paint, countdown
+    case halo, magnifier, spotlight, countdown
 }
 
 /// Central app controller: holds toggle state + settings, owns the feature
@@ -14,7 +14,6 @@ final class AppState: ObservableObject {
     @Published var haloOn = false
     @Published var magnifierOn = false
     @Published var spotlightOn = false
-    @Published var paintOn = false
     @Published var countdownOn = false
 
     // MARK: Settings (persisted)
@@ -25,8 +24,6 @@ final class AppState: ObservableObject {
     @AppStorage("spotlightDim")   var spotlightDim = 0.55
     @AppStorage("magnifierDiameter") var magnifierDiameter = 240.0
     @AppStorage("magnifierZoom")  var magnifierZoom = 2.0
-    @AppStorage("paintColor")     var paintColorHex = "#FF375F"
-    @AppStorage("paintWidth")     var paintWidth = 6.0
     @AppStorage("countdownSeconds") var countdownDefaultSeconds = 300
 
     // MARK: Feature controllers
@@ -35,7 +32,6 @@ final class AppState: ObservableObject {
     private lazy var spotlight = SpotlightController(host: overlay)
     private lazy var magnifier = MagnifierController(host: overlay)
     private lazy var countdown = CountdownController()
-    private lazy var paint = PaintController()
 
     private let cursor = CursorTracker()
     private var hotKeys: HotKeyCenter?
@@ -65,7 +61,6 @@ final class AppState: ObservableObject {
         case .halo: return haloOn
         case .magnifier: return magnifierOn
         case .spotlight: return spotlightOn
-        case .paint: return paintOn
         case .countdown: return countdownOn
         }
     }
@@ -100,9 +95,6 @@ final class AppState: ObservableObject {
         case .spotlight:
             spotlightOn = on
             spotlight.setActive(on, settings: self)
-        case .paint:
-            paintOn = on
-            paint.setActive(on, settings: self)
         case .countdown:
             countdownOn = on
             countdown.setVisible(on, settings: self)
@@ -119,7 +111,7 @@ final class AppState: ObservableObject {
 
     private func updateCursorTracking() {
         if needsCursor { cursor.start() } else { cursor.stop() }
-        hotKeys?.setEscapeEnabled(haloOn || magnifierOn || spotlightOn || paintOn || countdownOn)
+        hotKeys?.setEscapeEnabled(haloOn || magnifierOn || spotlightOn || countdownOn)
     }
 
     // MARK: Cursor routing

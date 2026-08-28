@@ -28,12 +28,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.setActivationPolicy(.accessory)
         appState.registerHotKeys()
 
-        // Debug/testing hook: set SCREENTOOLS_DEBUG_TOOL=halo|spotlight|magnifier|paint|countdown
+        // Debug/testing hook: set SCREENTOOLS_DEBUG_TOOL=halo|spotlight|magnifier|countdown
         // to auto-enable a tool on launch (used for automated verification).
         if let name = ProcessInfo.processInfo.environment["SCREENTOOLS_DEBUG_TOOL"] {
             let map: [String: Tool] = [
                 "halo": .halo, "spotlight": .spotlight, "magnifier": .magnifier,
-                "paint": .paint, "countdown": .countdown
+                "countdown": .countdown
             ]
             if let tool = map[name.lowercased()] {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [appState] in

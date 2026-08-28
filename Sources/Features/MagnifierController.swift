@@ -11,19 +11,38 @@ final class MagnifierController: NSObject, SCStreamOutput {
     private let sampleQueue = DispatchQueue(label: "com.local.screentools.magnifier")
 
     private var stream: SCStream?
-    private var active = false
 
     // Snapshotted on the main thread, read on the capture queue.
     private let stateLock = NSLock()
+    private var _active = false
     private var cursorGlobal: CGPoint = .zero
     private var screenFrame: NSRect = .zero
     private var scale: CGFloat = 2
     private var zoom: CGFloat = 2
     private var cropPoints: CGFloat = 120
 
+    /// Written on the main thread, read on `sampleQueue` — goes through
+    /// `stateLock` like the other capture-thread-visible state below.
+    private var active: Bool {
+        get { stateLock.lock(); defer { stateLock.unlock() }; return _active }
+        set { stateLock.lock(); _active = newValue; stateLock.unlock() }
+    }
+
+    // Serializes start/stop against each other so overlapping Tasks (rapid
+    // toggling, a screen change landing mid-reconfigure) can't race on `stream`.
+    private var lifecycleTask: Task<Void, Never>?
+
     init(host: OverlayController) {
         self.host = host
         super.init()
+    }
+
+    private func scheduleLifecycle(_ operation: @escaping () async -> Void) {
+        let previous = lifecycleTask
+        lifecycleTask = Task {
+            await previous?.value
+            await operation()
+        }
     }
 
     func setActive(_ on: Bool, settings: AppState, screen: NSScreen?) {
@@ -47,11 +66,11 @@ final class MagnifierController: NSObject, SCStreamOutput {
             cropPoints = diameter / max(1.2, settings.magnifierZoom)
             stateLock.unlock()
 
-            if let screen { Task { await start(screen: screen) } }
+            if let screen { scheduleLifecycle { [weak self] in await self?.start(screen: screen) } }
         } else {
             layer.isHidden = true
             host.layerActivated(false, screen: nil)
-            Task { await stop() }
+            scheduleLifecycle { [weak self] in await self?.stop() }
         }
     }
 
@@ -74,9 +93,9 @@ final class MagnifierController: NSObject, SCStreamOutput {
 
     func reconfigure(for screen: NSScreen, settings: AppState) {
         guard active else { return }
-        Task {
-            await stop()
-            await start(screen: screen)
+        scheduleLifecycle { [weak self] in
+            await self?.stop()
+            await self?.start(screen: screen)
         }
     }
 

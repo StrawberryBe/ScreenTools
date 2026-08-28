@@ -1,7 +1,7 @@
 # Screen Tools
 
 **A lightweight macOS menu-bar app for presentations, demos, and screen recordings.**
-It lives in your menu bar (🪄) and gives you five on-screen tools you can toggle instantly with global hotkeys — highlight your cursor, magnify part of the screen, spotlight an area, draw on top of anything, and run a countdown timer.
+It lives in your menu bar (🪄) and gives you four on-screen tools you can toggle instantly with global hotkeys — highlight your cursor, magnify part of the screen, spotlight an area, and run a countdown timer.
 
 ---
 
@@ -12,8 +12,7 @@ It lives in your menu bar (🪄) and gives you five on-screen tools you can togg
 | **Mouse Halo** | ⌥⌘1 | A soft pink glow that follows your cursor so the audience can find it. |
 | **Magnifier** | ⌥⌘2 | A "looking glass" that zooms the area under your cursor. |
 | **Spotlight** | ⌥⌘3 | Dims the whole screen except a bright circle around your cursor. |
-| **Paint** | ⌥⌘4 | Draw freehand on top of everything (color, brush size, eraser, undo, clear). |
-| **Countdown** | ⌥⌘5 | A large countdown timer in the middle of the screen. |
+| **Countdown** | ⌥⌘4 | A large countdown timer in the middle of the screen. |
 | **Zoom in / out** | ⌥⌘= / ⌥⌘- | Change the magnifier's zoom level. |
 | **Turn everything off** | Esc | Only active while a tool is on — never interferes with Esc elsewhere. |
 
@@ -51,8 +50,7 @@ The built app is under Xcode's DerivedData; copy it to `/Applications`.
 1. Start a presentation or screen share.
 2. Press a hotkey (e.g. **⌥⌘3** for spotlight) — it works over any app, including full-screen.
 3. Press the same hotkey again to turn it off, or **Esc** to turn everything off.
-4. In **Paint** mode, a small toolbar appears; draw with the mouse, and press **⌥⌘4** or **Esc** to exit.
-5. Drag the **Countdown** window anywhere; use the ± buttons to adjust and ▶ to start.
+4. Drag the **Countdown** window anywhere; use the ± buttons to adjust and ▶ to start.
 
 ---
 
@@ -60,7 +58,6 @@ The built app is under Xcode's DerivedData; copy it to `/Applications`.
 
 - Tools activate on the display where your cursor is (single-display at a time).
 - Hotkeys are fixed in this version (Settings shows them; rebinding is not yet available).
-- Paint supports freehand, eraser, undo, and clear (no shapes/arrows/text yet).
 
 ---
 

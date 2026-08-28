@@ -7,11 +7,6 @@ struct SettingsView: View {
         Binding(get: { Color(hex: app.haloColorHex) },
                 set: { app.haloColorHex = NSColor($0).hexString })
     }
-    private var paintColor: Binding<Color> {
-        Binding(get: { Color(hex: app.paintColorHex) },
-                set: { app.paintColorHex = NSColor($0).hexString })
-    }
-
     var body: some View {
         TabView {
             Form {
@@ -27,10 +22,6 @@ struct SettingsView: View {
                 Section("Magnifier") {
                     LabeledSlider(title: "Size", value: $app.magnifierDiameter, range: 120...480, unit: "pt")
                     LabeledSlider(title: "Zoom", value: $app.magnifierZoom, range: 1.2...8.0, unit: "×")
-                }
-                Section("Paint") {
-                    ColorPicker("Color", selection: paintColor, supportsOpacity: false)
-                    LabeledSlider(title: "Brush width", value: $app.paintWidth, range: 1...40, unit: "pt")
                 }
             }
             .formStyle(.grouped)
@@ -66,8 +57,7 @@ private struct ShortcutsHelp: View {
         ("Mouse Halo", "⌥⌘1"),
         ("Magnifier", "⌥⌘2"),
         ("Spotlight", "⌥⌘3"),
-        ("Paint", "⌥⌘4"),
-        ("Countdown", "⌥⌘5"),
+        ("Countdown", "⌥⌘4"),
         ("Zoom in / out (magnifier)", "⌥⌘=  /  ⌥⌘-"),
         ("Turn everything off", "Esc")
     ]

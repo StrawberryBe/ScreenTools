@@ -12,3 +12,6 @@ signing/
 # macOS
 .DS_Store
 *.swp
+
+# Scratch / debug output
+.scratch/
